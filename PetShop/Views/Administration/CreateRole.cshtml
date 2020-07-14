@@ -1,0 +1,23 @@
+﻿@model PetShop.ViewModels.CreateRoleVM
+
+@{
+    ViewBag.Title = "New Role";
+}
+
+<form asp-action="CreateRole" method="post" class="mt-3">
+    <div asp-validation-summary="All" class="text-danger">
+    </div>
+    <div class="form-group">
+        <label asp-for="RoleName" class="control-label text-primary font-weight-bold"></label>
+        <input asp-for="RoleName" class="form-control" />
+        <span asp-validation-for="RoleName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-outline-secondary" style="width:auto">
+                Креирај
+            </button>
+        </div>
+    </div>
+</form>

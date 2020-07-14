@@ -1,0 +1,59 @@
+﻿@model PetShop.Models.Sopstvenik
+
+@{
+    ViewData["Title"] = "Бриши корисник";
+    var photoPath = "~/images/" + (Model.ProfilePicture ?? "3.png");
+}
+
+<h3 class="font-weight-bolder">Дали сте сигурни?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.ImePrezime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ImePrezime)
+        </dd>
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.ImeMilenik)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ImeMilenik)
+        </dd>
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.Grad)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Grad)
+        </dd>
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.Produkti)
+        </dt>
+        <dd>
+            @foreach (var item in Model.Produkti)
+            {
+                <a>
+                    @item.Produkt.Ime
+                </a> <br />
+            }
+        </dd>
+    </dl>
+    <div class="form-group row col-sm-4 offset-4">
+        <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+    </div>
+
+    <form asp-action="DeleteSopstvenik">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Бриши" class="btn btn-outline-secondary" />
+    </form>
+</div>
+<div>
+    <a asp-action="IndexSopstvenik" class="btn btn-outline-secondary">Назад кон листа</a>
+</div>

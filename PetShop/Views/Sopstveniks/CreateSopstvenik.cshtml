@@ -1,0 +1,61 @@
+﻿@model PetShop.ViewModels.SopstvenikVM
+
+@{
+    ViewData["Title"] = "Нов корисник";
+}
+
+<h2 class="font-weight-bold">Нов корисник</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ImePrezime" class="control-label text-primary font-weight-bolder"></label>
+                <input asp-for="ImePrezime" class="form-control" />
+                <span asp-validation-for="ImePrezime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImeMilenik" class="control-label text-primary font-weight-bolder"></label>
+                <input asp-for="ImeMilenik" class="form-control" />
+                <span asp-validation-for="ImeMilenik" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grad" class="control-label text-primary font-weight-bolder"></label>
+                <input asp-for="Grad" class="form-control" />
+                <span asp-validation-for="Grad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label text-primary font-weight-bolder"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfilePicture" class="control-label text-primary font-weight-bolder"></label>
+                <div class="custom-file">
+                    <input asp-for="ProfilePicture" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Креирај" class="btn btn-outline-secondary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="IndexSopstvenik" class="btn btn-outline-secondary">Назад кон листа</a>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}  

@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@model PetShop.ViewModels.SearchProduktVM
+
+@{
+    ViewData["Title"] = "Производи";
+}
+<form asp-controller="Produkts" asp-action="Index" method="get">
+    <p>
+        <h1 class="text-danger">Наменето за:</h1> <select style="width:170px;height:35px" asp-for="ProduktVid" asp-items="Model.Vidovi">
+            <option class="font-weight-bold" value="">All</option>
+        </select>
+        <input type="submit" value="Филтрирај" class="btn btn-outline-secondary" />
+    </p>
+</form>
+
+<div class="card-deck">
+    @foreach (var item in Model.Produkts)
+    {
+        var photoPath = "~/images/" + (item.ProfilePicture ?? "2.jpg");
+        <div class="card text-white bg-secondary mb-3" style="min-width: 18rem; max-width: 30.5%;">
+            <div class="card-header">
+                <h3>@item.Ime</h3>
+            </div>
+
+            <img class="card-img-top" style="height: 300px;width: auto;" src="@photoPath"
+                 asp-append-version="true" />
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-black-50 font-weight-bold">Наменето за : @item.NamenetoZa </li>
+                <li class="list-group-item text-black-50 font-weight-bold">Цена : @item.Cena</li>
+            </ul>
+
+            <div class="card-footer text-center">
+                @if ((await authorizationService.AuthorizeAsync(User, "EditProductPolicy")).Succeeded)
+                {
+                    <a asp-controller="produkts" asp-action="edit" asp-route-id="@item.Id" class="btn btn-danger m-1">Измени</a>
+                }
+                @if ((await authorizationService.AuthorizeAsync(User, "DeleteProductPolicy")).Succeeded)
+                {
+                    <a asp-controller="Produkts" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-1">Избриши</a>
+                }
+                @if (SignInManager.IsSignedIn(User) && !User.IsInRole("Admin"))
+                {
+                <a asp-controller="produkts" asp-action="poracaj" asp-route-id="@item.Id" class="btn btn-danger m-1">Нарачај Производ</a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    <a class="btn btn-secondary btn-lg btn-block" asp-controller="produkts" asp-action="create">Креирај нов производ</a>
+</div>

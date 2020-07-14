@@ -1,0 +1,86 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService;
+@model IEnumerable<PetShop.Models.Sopstvenik>
+
+@{
+    ViewData["Title"] = "Корисници";
+}
+
+<div>
+    <h1>Задоволни корисници</h1>
+</div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th class="text-danger font-weight-bolder">
+                    @Html.DisplayNameFor(model => model.ImePrezime)
+                </th>
+                <th class="text-primary font-weight-bolder">
+                    @Html.DisplayNameFor(model => model.ImeMilenik)
+                </th>
+                <th class="text-danger font-weight-bolder">
+                    @Html.DisplayNameFor(model => model.Grad)
+                </th>
+                <th class="text-primary font-weight-bolder">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th class="text-danger font-weight-bolder">
+                    @Html.DisplayNameFor(model => model.Produkti)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var photoPath = "~/images/" + (item.ProfilePicture ?? "3.png");
+                <tr>
+                    <td>
+                        <img src="@photoPath"
+                             height="80" width="70"
+                             asp-append-version="true" />
+                    </td>
+                    <td class="font-weight-bold">
+                        @Html.DisplayFor(modelItem => item.ImePrezime)
+                    </td>
+                    <td class="font-weight-bold">
+                        @Html.DisplayFor(modelItem => item.ImeMilenik)
+                    </td>
+                    <td class="font-weight-bold">
+                        @Html.DisplayFor(modelItem => item.Grad)
+                    </td>
+                    <td class="font-weight-bold">
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @foreach (var produkt in item.Produkti)
+                        {
+                            <a> @produkt.Produkt.Ime </a> <br />
+                        }
+                    </td>
+                    @if ((await authorizationService.AuthorizeAsync(User, "EditSopstvenikPolicy")).Succeeded)
+                    {
+                        <td>
+                            <a asp-action="EditSopstvenik" asp-route-id="@item.Id" class="btn btn-danger">Измени</a>
+
+                        </td>
+                    }*
+                    @if ((await authorizationService.AuthorizeAsync(User, "EditProductPolicy")).Succeeded)
+                    {
+                        <td>
+                            <a asp-action="DeleteSopstvenik" asp-route-id="@item.Id" class="btn btn-danger">Избриши</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a class="btn btn-secondary btn-lg btn-block" asp-controller="sopstveniks" asp-action="createsopstvenik">Креирај нов корисник</a>
+</div>
+

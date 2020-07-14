@@ -1,0 +1,42 @@
+﻿@model PetShop.Models.Produkt
+
+@{
+    ViewData["Title"] = "Бриши производ";
+    var photoPath = "~/images/" + (Model.ProfilePicture ?? "2.jpg");
+}
+
+<h3 class="font-weight-bolder">Дали сте сигурни?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.Ime)
+        </dt>
+        <dd class="col-sm-10 ">
+            @Html.DisplayFor(model => model.Ime)
+        </dd>
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.NamenetoZa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NamenetoZa)
+        </dd>
+        <dt class="col-sm-2 text-danger">
+            @Html.DisplayNameFor(model => model.Cena)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cena)
+        </dd>
+    </dl>
+    <div class="form-group row col-sm-4 offset-4">
+        <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+    </div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Бриши" class="btn btn-outline-secondary" />
+    </form>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-outline-secondary">Назад кон листа</a>
+</div>
+
